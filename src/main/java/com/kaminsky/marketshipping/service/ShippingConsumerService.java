@@ -1,7 +1,7 @@
 package com.kaminsky.marketshipping.service;
 
-import com.kaminsky.marketshipping.entity.PackedOrder;
-import com.kaminsky.marketshipping.entity.Status;
+import com.kaminsky.entity.MarketOrder;
+import com.kaminsky.status.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -21,7 +21,7 @@ public class ShippingConsumerService {
 
     @RetryableTopic(backoff = @Backoff(delay = 3000))
     @KafkaListener(topics = "payed_orders", groupId = "shipping_group")
-    public void listen(PackedOrder order) {
+    public void listen(MarketOrder order) {
         try {
             logger.info("Новый заказ: {}", order);
             order.setPacked(true);
