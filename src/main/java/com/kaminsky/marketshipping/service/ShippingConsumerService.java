@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
 import org.springframework.retry.annotation.Backoff;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +20,7 @@ public class ShippingConsumerService {
         this.shippingProducerService = shippingProducerService;
     }
 
+    @Async
     @RetryableTopic(backoff = @Backoff(delay = 3000))
     @KafkaListener(topics = "payed_orders", groupId = "shipping_group")
     public void listen(MarketOrder order) {
